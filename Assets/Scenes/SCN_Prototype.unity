@@ -582,7 +582,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 243562533}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -49.39, y: -26.7, z: -6.7}
+  m_LocalPosition: {x: -59.07, y: -26.7, z: -6.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1000,7 +1000,7 @@ MonoBehaviour:
   forceJump: 20
   jumpScaleY: 1.5
   jumpScaleX: 0.7
-  animationDuration: 0.3
+  animationDuration: 1
   ease: 27
 --- !u!50 &2026768511
 Rigidbody2D:
