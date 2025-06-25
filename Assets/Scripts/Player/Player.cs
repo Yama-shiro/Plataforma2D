@@ -39,11 +39,11 @@ public class Player : MonoBehaviour
 
 
 
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if(Input.GetKey(KeyCode.LeftArrow))
         {
             myRigidbody.velocity = new Vector2(-_currentSpeed, myRigidbody.velocity.y);
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
             myRigidbody.velocity = new Vector2(_currentSpeed, myRigidbody.velocity.y);
         }
@@ -62,11 +62,10 @@ public class Player : MonoBehaviour
 
     private void HandleJump()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKey(KeyCode.Space))
             myRigidbody.velocity = Vector2.up * forceJump;
-                myRigidbody.transform.localScale = Vector2.one;
+        myRigidbody.transform.localScale = Vector2.one;
 
-        DOTween.Kill(myRigidbody.transform);
 
             HandleScaleJump();
     }
