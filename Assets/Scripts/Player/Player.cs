@@ -102,6 +102,8 @@ public class Player : MonoBehaviour
             myRigidbody.transform.localScale = Vector2.one;
         }
 
+        DOTween.Kill(myRigidbody.transform);
+
             HandleScaleJump();
     }
 
