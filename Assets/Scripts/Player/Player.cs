@@ -18,17 +18,34 @@ public class Player : MonoBehaviour
     private float _currentSpeed;
     private bool _isRunning = false;
 
-   
+    [Header("Jump Collision Check")]
+    public Collider2D collider2D;
+    public float distToGround;
+    public float spaceToGround = .1f;
+    public ParticleSystem jumpVFX;
+
+
 
     private void Awake()
     {
-        if(healthBase != null)
+        if (healthBase != null)
         {
             healthBase.OnKill += OnPlayerKill;
         }
         _currentPlayer = Instantiate(soPlayerSetup.player, transform);
 
+        if (collider2D != null)
+        {
+            distToGround = collider2D.bounds.extents.y;
+        }
     }
+
+    private bool IsGrounded()
+    {
+        Debug.DrawRay(transform.position, -Vector2.up, Color.magenta, distToGround + spaceToGround);
+        return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + spaceToGround);
+    }
+
 
     private void OnPlayerKill()
     {
@@ -40,6 +57,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        IsGrounded();
         HandleJump();
         HandleMoviment();
     }
@@ -58,7 +76,7 @@ public class Player : MonoBehaviour
         }
 
 
-        if(Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             myRigidbody.velocity = new Vector2(-_currentSpeed, myRigidbody.velocity.y);
             if (myRigidbody.transform.localScale.x != -1)
@@ -66,7 +84,7 @@ public class Player : MonoBehaviour
                 myRigidbody.transform.DOScaleX(-1, soPlayerSetup.playerSwipeDuration);
             }
             _currentPlayer.SetBool(soPlayerSetup.boolRun, true);
-            
+
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
@@ -83,11 +101,11 @@ public class Player : MonoBehaviour
         }
 
 
-        if(myRigidbody.velocity.x > 0)
+        if (myRigidbody.velocity.x > 0)
         {
             myRigidbody.velocity += soPlayerSetup.friction;
         }
-        else if(myRigidbody.velocity.x < 0)
+        else if (myRigidbody.velocity.x < 0)
         {
             myRigidbody.velocity -= soPlayerSetup.friction;
         }
@@ -96,7 +114,7 @@ public class Player : MonoBehaviour
 
     private void HandleJump()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && IsGrounded())
         {
             myRigidbody.velocity = Vector2.up * soPlayerSetup.forceJump;
             myRigidbody.transform.localScale = Vector2.one;
@@ -104,7 +122,13 @@ public class Player : MonoBehaviour
 
         DOTween.Kill(myRigidbody.transform);
 
-            HandleScaleJump();
+        HandleScaleJump();
+        PlayJumpVFX();
+    }
+
+    private void PlayJumpVFX()
+    {
+        if(jumpVFX != null) jumpVFX.Play();
     }
 
     private void HandleScaleJump()
